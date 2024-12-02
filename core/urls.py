@@ -25,5 +25,4 @@ urlpatterns = [
     path("", include("task_manager.urls", namespace="task_manager")),
     path("accounts/", include("django.contrib.auth.urls")),
     path("accounts/register/", views.register, name="register"),
-    # path("accounts/", include("accounts.urls", namespace="accounts")),
 ]
