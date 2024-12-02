@@ -1,27 +1,11 @@
 from django.contrib.auth.models import AbstractUser
 from django.db import models
 
-
-class Position(models.Model):
-    name = models.CharField(max_length=100)
-
-    def __str__(self):
-        return self.name
-
-
-class Worker(AbstractUser):
-    position = models.ForeignKey(Position, on_delete=models.CASCADE, related_name="workers")
-
-    class Meta:
-        verbose_name = "worker"
-        verbose_name_plural = "workers"
-
-    def __str__(self):
-        return f"{self.username} ({self.first_name} {self.last_name})"
+from accounts.models import Worker
 
 
 class TaskType(models.Model):
-    name = models.CharField(max_length=100)
+    name = models.CharField(max_length=127)
 
     def __str__(self):
         return self.name
@@ -35,13 +19,16 @@ class Task(models.Model):
         ("Low", "Low")
     ]
 
-    name = models.CharField(max_length=100)
-    description = models.TextField()
-    deadline = models.DateTimeField()
+    name = models.CharField(max_length=127)
+    description = models.TextField(blank=True, null=True)
+    deadline = models.DateTimeField(blank=True, null=True)
     is_completed = models.BooleanField(default=False)
     priority = models.CharField(max_length=10, choices=Priority, default="Urgent")
     task_type = models.ForeignKey(TaskType, on_delete=models.CASCADE, related_name="tasks")
     assignees = models.ManyToManyField(Worker, related_name="tasks")
+
+    class Meta:
+        ordering = ["is_completed"]
 
     def __str__(self):
         return self.name
