@@ -8,6 +8,10 @@ Each team member can create a task, assign that task to other team members, and 
 
 [Task manager project deployed to Render]
 
+- You can use following user (or create another one by yourself):
+  - Login: `test.user`
+  - Password: `1qazcde3`
+
 ## Installation
 
 Python3 must be already installed
