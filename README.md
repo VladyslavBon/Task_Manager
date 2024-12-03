@@ -8,6 +8,8 @@ Each team member can create a task, assign that task to other team members, and 
 
 [Task manager project deployed to Render]
 
+https://task-manager-deploy-ov24.onrender.com
+
 - You can use following user (or create another one by yourself):
   - Login: `test.user`
   - Password: `1qazcde3`
