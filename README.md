@@ -18,11 +18,18 @@ https://task-manager-deploy-ov24.onrender.com
 
 Python3 must be already installed
 
+Create a `.env` file following the `.env.sample` template and replace with your values.
+
 ```shell
 git clone https://github.com/VladyslavBon/Task_Manager
 cd Task_Manager
+
 python3 -m venv venv
-source venv/bin/activate
+- For Linux or Mac:
+    source venv/bin/activate
+- For Windows:
+    source venv/Scripts/activate
+
 pip install -r requirements.txt
 python manage.py migrate
 python manage.py runserver
