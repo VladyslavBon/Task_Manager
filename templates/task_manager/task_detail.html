@@ -35,13 +35,19 @@
   <br>
 <div>
   {% if task.is_completed %}
-    <a href="{% url 'task_manager:toggle_task_status' pk=task.pk %}" class="btn btn-secondary">
-      <b>Mars as pending</b>
-    </a>
+    <form action="{% url 'task_manager:toggle_task_status' pk=task.pk %}" method="post" style="display: inline;">
+      {% csrf_token %}
+      <button type="submit" class="btn btn-secondary btn">
+        Mark as pending
+      </button>
+    </form>
   {% else %}
-    <a href="{% url 'task_manager:toggle_task_status' pk=task.pk %}" class="btn btn-success">
-      <b>Mark as completed</b>
-    </a>
+    <form action="{% url 'task_manager:toggle_task_status' pk=task.pk %}" method="post" style="display: inline;">
+      {% csrf_token %}
+      <button type="submit" class="btn btn-success btn">
+        Mark as completed
+      </button>
+    </form>
   {% endif %}
 </div>
   <br>

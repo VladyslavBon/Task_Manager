@@ -54,9 +54,12 @@
                   </ul>
                 </div>
                 <div class="card-footer d-flex justify-content-between">
-                  <a href="{% url 'task_manager:toggle_task_status' pk=task.pk %}" class="btn btn-success btn-sm">
-                    Mark as completed
-                  </a>
+                  <form action="{% url 'task_manager:toggle_task_status' pk=task.pk %}" method="post" style="display: inline;">
+                    {% csrf_token %}
+                    <button type="submit" class="btn btn-success btn-sm">
+                      Mark as completed
+                    </button>
+                  </form>
                   <a href="{% url 'task_manager:task_detail' task.pk %}" class="btn btn-primary btn-sm">View Details</a>
                 </div>
               </div>
@@ -116,5 +119,3 @@
   </div>
 </div>
 {% endblock %}
-
-
