@@ -1,16 +1,10 @@
-from django.contrib.auth import login
-from django.shortcuts import render, redirect
+from django.urls import reverse_lazy
+from django.views import generic
 
 from accounts.forms import WorkerRegistrationForm
 
 
-def register(request):
-    if request.method == "POST":
-        form = WorkerRegistrationForm(request.POST)
-        if form.is_valid():
-            worker = form.save()
-            login(request, worker)
-            return redirect("task_manager:dashboard")
-    else:
-        form = WorkerRegistrationForm()
-    return render(request, "registration/register.html", {"form": form})
+class RegisterView(generic.CreateView):
+    form_class = WorkerRegistrationForm
+    template_name = "registration/register.html"
+    success_url = reverse_lazy("task_manager:dashboard")

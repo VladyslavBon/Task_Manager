@@ -3,7 +3,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.http import HttpResponseRedirect
 from django.shortcuts import get_object_or_404
 from django.urls import reverse_lazy, reverse
-from django.views import generic
+from django.views import generic, View
 
 from accounts.models import Worker
 from task_manager.forms import TaskForm
@@ -17,7 +17,7 @@ class DashboardView(generic.ListView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context["tasks"] = Task.objects.select_related("task_type").prefetch_related("assignees").all()
+        context["tasks"] = Task.objects.select_related("task_type").prefetch_related("assignees")
         return context
 
 
@@ -26,7 +26,7 @@ class WorkerDetailView(LoginRequiredMixin, generic.DetailView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context["tasks"] = self.object.tasks.select_related("task_type").all()
+        context["tasks"] = self.object.tasks.select_related("task_type")
         return context
 
 
@@ -52,9 +52,10 @@ class TaskDeleteView(LoginRequiredMixin, generic.DeleteView):
     model = Task
     success_url = reverse_lazy("task_manager:dashboard")
 
-@login_required
-def toggle_task_status(request, pk):
-    task = get_object_or_404(Task, pk=pk)
-    task.is_completed = not task.is_completed
-    task.save()
-    return HttpResponseRedirect(request.META.get("HTTP_REFERER", reverse("task_manager:dashboard")))
+
+class ToggleTaskStatusView(LoginRequiredMixin, View):
+    def post(self, request, pk, *args, **kwargs):
+        task = get_object_or_404(Task, pk=pk)
+        task.is_completed = not task.is_completed
+        task.save()
+        return HttpResponseRedirect(request.META.get("HTTP_REFERER", reverse("task_manager:dashboard")))
