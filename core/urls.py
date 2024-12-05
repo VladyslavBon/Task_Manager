@@ -18,11 +18,9 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 
-from accounts import views
 
 urlpatterns = [
     path("admin/", admin.site.urls),
     path("", include("task_manager.urls", namespace="task_manager")),
-    path("accounts/", include("django.contrib.auth.urls")),
-    path("accounts/register/", views.register, name="register"),
+    path("accounts/", include("accounts.urls", namespace="accounts")),
 ]
