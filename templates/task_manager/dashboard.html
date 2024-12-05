@@ -1,0 +1,121 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container mt-4">
+  <div class="row align-items-center mb-4">
+    <div class="col-4"></div>
+    <div class="col-4 text-center">
+      <h1>Dashboard</h1>
+    </div>
+    <div class="col-4 text-end">
+      <a href="{% url 'task_manager:create_task' %}" class="btn btn-warning">
+        <i class="bi bi-plus-circle"></i> Create Task
+      </a>
+    </div>
+  </div>
+  
+  <div class="row">
+    <div class="col-md-6" style="margin-right: 40px;">
+      <h2 class="text-center">Pending Tasks</h2>
+      <br>
+      <div class="row">
+        {% for task in tasks %}
+          {% if not task.is_completed %}
+            <div class="col-md-6 mb-4">
+              <div class="card">
+                <div class="card-header">
+                  <h5>{{ task.name }}</h5>
+                  <h6>{{ task.description }}</h6>
+                  <small style="color: #800000;">Deadline: {{ task.deadline }}</small>
+                  <br>
+                  <span>
+                    {% if task.is_completed %}
+                      <span class="badge bg-success">Completed</span>
+                    {% else %}
+                      <span class="badge bg-danger">Pending</span>
+                    {% endif %}
+                  </span>
+                </div>
+                <div class="card-body">
+                  <h6>Assigners:</h6>
+                  <ul class="list-group">
+                    {% for worker in task.assignees.all %}
+                      <li class="list-group-item d-flex justify-content-between align-items-center">
+                        <span>
+                          <a href="{% url 'task_manager:worker_detail' worker.pk %}">
+                            {{ worker.first_name }} {{ worker.last_name }}
+                          </a>
+                          - {{ worker.position }}
+                        </span>
+                      </li>
+                    {% empty %}
+                      <li class="list-group-item text-muted">No tasks assigned</li>
+                    {% endfor %}
+                  </ul>
+                </div>
+                <div class="card-footer d-flex justify-content-between">
+                  <form action="{% url 'task_manager:toggle_task_status' pk=task.pk %}" method="post" style="display: inline;">
+                    {% csrf_token %}
+                    <button type="submit" class="btn btn-success btn-sm">
+                      Mark as completed
+                    </button>
+                  </form>
+                  <a href="{% url 'task_manager:task_detail' task.pk %}" class="btn btn-primary btn-sm">View Details</a>
+                </div>
+              </div>
+            </div>
+          {% endif %}
+        {% endfor %}
+      </div>
+    </div>
+  
+    <div class="col-md-5" style="margin-left: 40px;">
+      <h2 class="text-center">Completed Tasks</h2>
+      <br>
+      <div class="row">
+        {% for task in tasks %}
+          {% if task.is_completed %}
+            <div class="col-md-6 mb-4">
+              <div class="card">
+                <div class="card-header">
+                  <h5>{{ task.name }}</h5>
+                  <h6>{{ task.description }}</h6>
+                  <small style="color: #800000;">Deadline: {{ task.deadline }}</small>
+                  <br>
+                  <span>
+                    {% if task.is_completed %}
+                      <span class="badge bg-success">Completed</span>
+                    {% else %}
+                      <span class="badge bg-danger">Pending</span>
+                    {% endif %}
+                  </span>
+                </div>
+                <div class="card-body">
+                  <h6>Assigners:</h6>
+                  <ul class="list-group">
+                    {% for worker in task.assignees.all %}
+                      <li class="list-group-item d-flex justify-content-between align-items-center">
+                        <span>
+                          <a href="{% url 'task_manager:worker_detail' worker.pk %}">
+                            {{ worker.first_name }} {{ worker.last_name }}
+                          </a>
+                          - {{ worker.position }}
+                        </span>
+                      </li>
+                    {% empty %}
+                      <li class="list-group-item text-muted">No tasks assigned</li>
+                    {% endfor %}
+                  </ul>
+                </div>
+                <div class="card-footer d-flex justify-content-between">
+                  <a href="{% url 'task_manager:task_detail' task.pk %}" class="btn btn-primary btn-sm">View Details</a>
+                </div>
+              </div>
+            </div>
+          {% endif %}
+        {% endfor %}
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

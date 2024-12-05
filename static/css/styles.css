@@ -1,0 +1,22 @@
+a {
+    text-decoration: none;
+    color: darkblue;
+}
+
+.low-priority {
+    color: green;
+}
+
+.medium-priority {
+    color: orange;
+}
+
+.high-priority {
+    color: red;
+}
+
+.urgent-priority {
+    color: purple;
+    font-weight: bold;
+}
+
