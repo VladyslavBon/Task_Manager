@@ -121,7 +121,9 @@ AUTH_USER_MODEL = "accounts.Worker"
 
 LOGIN_REDIRECT_URL = "task_manager:dashboard"
 
-LOGOUT_REDIRECT_URL = "login"
+LOGOUT_REDIRECT_URL = "accounts:login"
+
+LOGIN_URL = "accounts:login"
 
 CRISPY_ALLOWED_TEMPLATE_PACKS = "bootstrap5"
 
