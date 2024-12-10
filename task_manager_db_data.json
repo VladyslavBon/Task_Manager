@@ -1,0 +1,201 @@
+[
+  {
+    "model": "accounts.position",
+    "pk": 1,
+    "fields": {
+      "name": "Manager"
+    }
+  },
+  {
+    "model": "accounts.position",
+    "pk": 2,
+    "fields": {
+      "name": "Developer"
+    }
+  },
+  {
+    "model": "accounts.position",
+    "pk": 3,
+    "fields": {
+      "name": "Designer"
+    }
+  },
+  {
+    "model": "accounts.position",
+    "pk": 4,
+    "fields": {
+      "name": "QA"
+    }
+  },
+  {
+    "model": "accounts.position",
+    "pk": 5,
+    "fields": {
+      "name": "DevOps"
+    }
+  },
+  {
+    "model": "accounts.worker",
+    "pk": 1,
+    "fields": {
+      "username": "john_doe",
+      "first_name": "John",
+      "last_name": "Doe",
+      "email": "john@example.com",
+      "position": 1
+    }
+  },
+  {
+    "model": "accounts.worker",
+    "pk": 2,
+    "fields": {
+      "username": "jane_smith",
+      "first_name": "Jane",
+      "last_name": "Smith",
+      "email": "jane@example.com",
+      "position": 2
+    }
+  },
+  {
+    "model": "accounts.worker",
+    "pk": 3,
+    "fields": {
+      "username": "alice_johnson",
+      "first_name": "Alice",
+      "last_name": "Johnson",
+      "email": "alice@example.com",
+      "position": 3
+    }
+  },
+  {
+    "model": "accounts.worker",
+    "pk": 4,
+    "fields": {
+      "username": "bob_williams",
+      "first_name": "Bob",
+      "last_name": "Williams",
+      "email": "bob@example.com",
+      "position": 2
+    }
+  },
+  {
+    "model": "task_manager.tasktype",
+    "pk": 1,
+    "fields": {
+      "name": "Bug Fixing"
+    }
+  },
+  {
+    "model": "task_manager.tasktype",
+    "pk": 2,
+    "fields": {
+      "name": "Feature Development"
+    }
+  },
+  {
+    "model": "task_manager.tasktype",
+    "pk": 3,
+    "fields": {
+      "name": "UI Design"
+    }
+  },
+  {
+    "model": "task_manager.tasktype",
+    "pk": 4,
+    "fields": {
+      "name": "Breaking Change"
+    }
+  },
+  {
+    "model": "task_manager.tasktype",
+    "pk": 5,
+    "fields": {
+      "name": "Refactoring"
+    }
+  },
+  {
+    "model": "task_manager.tasktype",
+    "pk": 3,
+    "fields": {
+      "name": "QA"
+    }
+  },
+  {
+    "model": "task_manager.task",
+    "pk": 1,
+    "fields": {
+      "name": "Fix Login Bug",
+      "description": "Resolve the issue with login page errors.",
+      "deadline": "2024-12-10T18:00:00Z",
+      "is_completed": false,
+      "priority": "High",
+      "task_type": 1,
+      "assignees": [1, 2]
+    }
+  },
+  {
+    "model": "task_manager.task",
+    "pk": 2,
+    "fields": {
+      "name": "Add Search Feature",
+      "description": "Implement search functionality in the dashboard.",
+      "deadline": "2024-12-15T18:00:00Z",
+      "is_completed": false,
+      "priority": "Medium",
+      "task_type": 2,
+      "assignees": [2, 3]
+    }
+  },
+  {
+    "model": "task_manager.task",
+    "pk": 3,
+    "fields": {
+      "name": "Redesign Landing Page",
+      "description": "Create a new design for the landing page.",
+      "deadline": "2024-12-20T18:00:00Z",
+      "is_completed": false,
+      "priority": "Urgent",
+      "task_type": 3,
+      "assignees": [3]
+    }
+  },
+  {
+    "model": "task_manager.task",
+    "pk": 4,
+    "fields": {
+      "name": "Optimize Database",
+      "description": "Optimize the database queries for faster performance.",
+      "deadline": "2024-12-25T18:00:00Z",
+      "is_completed": false,
+      "priority": "High",
+      "task_type": 1,
+      "assignees": [1, 4]
+    }
+  },
+  {
+    "model": "task_manager.task",
+    "pk": 5,
+    "fields": {
+      "name": "Develop Chat Feature",
+      "description": "Build a real-time chat system for users.",
+      "deadline": "2025-01-05T18:00:00Z",
+      "is_completed": false,
+      "priority": "Medium",
+      "task_type": 2,
+      "assignees": [2, 3, 4]
+    }
+  },
+  {
+    "model": "task_manager.task",
+    "pk": 6,
+    "fields": {
+      "name": "Improve Mobile Design",
+      "description": "Enhance the UI for mobile users.",
+      "deadline": "2025-01-15T18:00:00Z",
+      "is_completed": false,
+      "priority": "Low",
+      "task_type": 3,
+      "assignees": [3, 1]
+    }
+  }
+]

@@ -1,0 +1,60 @@
+{% extends "base.html" %}
+
+{% block title %}Task Details{% endblock %}
+
+{% block content %}
+<h1>{{ task.name }}</h1>
+{% if task.is_completed %}
+  <span class="badge bg-success" style="margin-bottom: 10px;">Completed</span>
+{% else %}
+  <span class="badge bg-danger" style="margin-bottom: 10px;">Pending</span>
+{% endif %}
+<br>
+<p style="font-size: 18px;">Description: {{ task.description }}</p>
+<h6 class="
+  {% if task.priority == 'Low' %}low-priority
+  {% elif task.priority == 'Medium' %}medium-priority
+  {% elif task.priority == 'High' %}high-priority
+  {% elif task.priority == 'Urgent' %}urgent-priority
+  {% endif %}">
+  Priority: {{ task.get_priority_display }}
+</h6>
+<h6>Type: {{ task.task_type.name }}</h6>
+<p style="color: #800000;">Deadline: {{ task.deadline }}</p>
+<h3>Assignees</h3>
+<ul class="list-group  w-25">
+    {% for assignee in task.assignees.all %}
+        <li class="list-group-item">
+          <a href="{% url 'task_manager:worker_detail' assignee.pk %}">
+            {{ assignee.first_name }} {{ assignee.last_name }}
+          </a>
+          - {{ assignee.position }}
+        </li>
+    {% endfor %}
+</ul>
+  <br>
+<div>
+  {% if task.is_completed %}
+    <form action="{% url 'task_manager:toggle_task_status' pk=task.pk %}" method="post" style="display: inline;">
+      {% csrf_token %}
+      <button type="submit" class="btn btn-secondary btn">
+        Mark as pending
+      </button>
+    </form>
+  {% else %}
+    <form action="{% url 'task_manager:toggle_task_status' pk=task.pk %}" method="post" style="display: inline;">
+      {% csrf_token %}
+      <button type="submit" class="btn btn-success btn">
+        Mark as completed
+      </button>
+    </form>
+  {% endif %}
+</div>
+  <br>
+<a href="{% url 'task_manager:update_task' pk=task.pk %}" class="btn btn-secondary">
+  Update
+</a>
+<a href="{% url 'task_manager:delete_task' pk=task.pk %}" class="btn btn-danger">
+  Delete
+</a>
+{% endblock %}
