@@ -39,3 +39,19 @@ class TaskFormsTest(TestCase):
         )
         self.assertEqual(cleaned_data["priority"], form_data["priority"])
         self.assertEqual(cleaned_data["task_type"], task_type)
+
+    def test_task_creation_form_with_invalid_data(self):
+        form_data = {
+            "name": "",
+            "description": "test description",
+            "deadline": "invalid-date",
+            "priority": "Invalid",
+            "task_type": None,
+            "assignees": []
+        }
+        form = TaskForm(data=form_data)
+        self.assertFalse(form.is_valid())
+        self.assertIn("name", form.errors)
+        self.assertIn("deadline", form.errors)
+        self.assertIn("priority", form.errors)
+        self.assertIn("task_type", form.errors)

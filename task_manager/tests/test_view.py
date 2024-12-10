@@ -47,6 +47,11 @@ class ViewTest(TestCase):
         self.assertTemplateUsed(response, "task_manager/task_detail.html")
         self.assertEqual(response.context["task"], self.task)
 
+    def test_task_detail_view_non_existent_task(self):
+        self.client.login(username="worker1", password="test123")
+        response = self.client.get(reverse("task_manager:task_detail", kwargs={"pk": 9999}))
+        self.assertEqual(response.status_code, 404)
+
     def test_task_create_view(self):
         self.client.login(username="worker1", password="test123")
         form_data = {
@@ -60,6 +65,20 @@ class ViewTest(TestCase):
         response = self.client.post(reverse("task_manager:create_task"), data=form_data)
         self.assertEqual(response.status_code, 302)
         self.assertTrue(Task.objects.filter(name="New Task").exists())
+
+    def test_task_create_view_invalid_data(self):
+        self.client.login(username="worker1", password="test123")
+        form_data = {
+            "name": "",
+            "description": "A newly created task",
+            "deadline": "invalid-date",
+            "priority": "Invalid",
+            "task_type": "",
+            "assignees": []
+        }
+        response = self.client.post(reverse("task_manager:create_task"), data=form_data)
+        self.assertEqual(response.status_code, 200)
+        self.assertContains(response, "This field is required")
 
     def test_task_update_view(self):
         self.client.login(username="worker1", password="test123")
@@ -79,11 +98,21 @@ class ViewTest(TestCase):
         self.assertEqual(self.task.priority, "High")
         self.assertEqual(self.task.deadline.strftime("%Y-%m-%d"), "2024-12-15")
 
+    def test_task_update_view_requires_login(self):
+        response = self.client.post(reverse("task_manager:update_task", kwargs={"pk": self.task.pk}))
+        self.assertEqual(response.status_code, 302)
+        self.assertTrue(Task.objects.filter(pk=self.task.pk).exists())
+
     def test_task_delete_view(self):
         self.client.login(username="worker1", password="test123")
         response = self.client.post(reverse("task_manager:delete_task", kwargs={"pk": self.task.pk}))
         self.assertEqual(response.status_code, 302)
         self.assertFalse(Task.objects.filter(pk=self.task.pk).exists())
+
+    def test_task_delete_view_requires_login(self):
+        response = self.client.post(reverse("task_manager:delete_task", kwargs={"pk": self.task.pk}))
+        self.assertEqual(response.status_code, 302)
+        self.assertTrue(Task.objects.filter(pk=self.task.pk).exists())
 
     def test_toggle_task_status(self):
         self.client.login(username="worker1", password="test123")
@@ -91,3 +120,14 @@ class ViewTest(TestCase):
         self.assertEqual(response.status_code, 302)
         self.task.refresh_from_db()
         self.assertTrue(self.task.is_completed)
+
+    def test_toggle_task_status_requires_login(self):
+        response = self.client.post(reverse("task_manager:toggle_task_status", kwargs={"pk": self.task.pk}))
+        self.assertEqual(response.status_code, 302)
+        self.task.refresh_from_db()
+        self.assertFalse(self.task.is_completed)
+
+    def test_toggle_task_status_non_existent_task(self):
+        self.client.login(username="worker1", password="test123")
+        response = self.client.post(reverse("task_manager:toggle_task_status", kwargs={"pk": 9999}))
+        self.assertEqual(response.status_code, 404)
